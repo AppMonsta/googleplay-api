@@ -427,6 +427,38 @@ class GooglePlayAPI(object):
 
         return utils.parseProtobufObj(data.payload.browseResponse)
 
+    def list_ranks(self, cat, ctr, nb_results=None, next_page_url=None):
+      """
+      List top ranks for the given category and rank list.
+      Args:
+        cat (str) - Category ID.
+        ctr (str) - Rank list ID.
+        nb_results (int) - Number of results per request.
+        next_page_url (str) - Next page url for subsequent requests.
+      Returns:
+        (a list of apps, next page url)
+      """
+      if next_page_url:
+        path = FDFE + next_page_url
+      else:
+        path = LIST_URL + "?c=3&cat={}".format(requests.utils.quote(cat))
+        path += "&ctr={}".format(requests.utils.quote(ctr))
+        if nb_results is not None:
+            path += "&n={}".format(requests.utils.quote(str(nb_results)))
+
+      data = self.executeRequestApi2(path)
+      apps = []
+      for d in data.payload.listResponse.doc:  # categories
+          for c in d.child:  # sub-category
+              for a in c.child:  # app
+                  apps.append(utils.parseProtobufObj(a))
+      try:
+        # Sometimes we get transient very short response which indicates there's no more data
+        next_page_url = data.payload.listResponse.doc[0].child[0].containerMetadata.nextPageUrl
+      except Exception:
+        return (apps, "")
+      return (apps, next_page_url)
+
     def list(self, cat, ctr=None, nb_results=None, offset=None):
         """List all possible subcategories for a specific category. If
         also a subcategory is provided, list apps from this category.
