@@ -1,4 +1,6 @@
-# Google play python API [![Build Status](https://travis-ci.org/NoMore201/googleplay-api.svg?branch=master)](https://travis-ci.org/NoMore201/googleplay-api)
+# This is a fork of Google play python API [![Build Status](https://travis-ci.org/NoMore201/googleplay-api.svg?branch=master)](https://travis-ci.org/NoMore201/googleplay-api)
+
+Refer to the official documentation below on how to use the library. For installation and contributing (also creating new releases) refer to the [Wiki](https://github.com/AppMonsta/googleplay-api/wiki) page.
 
 This project contains an unofficial API for google play interactions. The code mainly comes from
 [GooglePlayAPI project](https://github.com/egirault/googleplay-api/) which is not
