@@ -531,8 +531,7 @@ class GooglePlayAPI(object):
         headers = self.getHeaders()
         response = requests.get(url, headers=headers,
                                 cookies=cookies, verify=ssl_verify,
-                                stream=True, timeout=60,
-                                proxies=self.proxies_config)
+                                stream=True, timeout=60)
         total_size = response.headers.get('content-length')
         chunk_size = 32 * (1 << 10)
         return {'data': response.iter_content(chunk_size=chunk_size),
@@ -575,8 +574,7 @@ class GooglePlayAPI(object):
             params['dtok'] = downloadToken
         response = requests.get(DELIVERY_URL, headers=headers,
                                 params=params, verify=ssl_verify,
-                                timeout=60,
-                                proxies=self.proxies_config)
+                                timeout=60)
         response = googleplay_pb2.ResponseWrapper.FromString(response.content)
         if response.commands.displayErrorMessage != "":
             raise RequestError(response.commands.displayErrorMessage)
