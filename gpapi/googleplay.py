@@ -32,7 +32,7 @@ BULK_URL = FDFE + "bulkDetails"
 LOG_URL = FDFE + "log"
 TOC_URL = FDFE + "toc"
 ACCEPT_TOS_URL = FDFE + "acceptTos"
-LIST_URL = FDFE + "list"
+LIST_URL = FDFE + "listTopChartItems"
 REVIEWS_URL = FDFE + "rev"
 
 CONTENT_TYPE_URLENC = "application/x-www-form-urlencoded; charset=UTF-8"
@@ -427,7 +427,7 @@ class GooglePlayAPI(object):
 
         return utils.parseProtobufObj(data.payload.browseResponse)
 
-    def list_ranks(self, cat, ctr, nb_results=None, next_page_url=None):
+    def list_ranks(self, cat, ctr, next_page_url=None):
       """
       List top ranks for the given category and rank list.
       Args:
@@ -441,10 +441,8 @@ class GooglePlayAPI(object):
       if next_page_url:
         path = FDFE + next_page_url
       else:
-        path = LIST_URL + "?c=3&cat={}".format(requests.utils.quote(cat))
-        path += "&ctr={}".format(requests.utils.quote(ctr))
-        if nb_results is not None:
-            path += "&n={}".format(requests.utils.quote(str(nb_results)))
+        path = LIST_URL + "?c=3&scat={}".format(requests.utils.quote(cat))
+        path += "&stcid={}".format(requests.utils.quote(ctr))
 
       data = self.executeRequestApi2(path)
       apps = []
